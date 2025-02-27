@@ -65,7 +65,26 @@ local Slider1 = Tabs.Aim:AddSlider("Fov Size", {
         getgenv().Aimbot.FOVSettings.Amount = Value
     end
 })
+local Slider = Tabs.Aim:AddSlider("Slider", 
+{
+    Title = "smothing",
+    Description = "",
+    Default = 2,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Callback = function(Value)
+        getgenv().Aimbot.Settings.Sensitivity = Value
+    end
+})
+local MultiDropdown = Tabs.Aim:AddDropdown("MultiDropdown", {
+    Title = "Dropdown",
+    Description = "You can select multiple values.",
+    Values = {"Head", "Torso"}, 
+    Multi = true,
+    Default = {"Head"},
 
+ })
 -- Add Toggle for "WallCheck"
 local Toggle2 = Tabs.Aim:AddToggle("WallCheck", {
     Title = "Enable WallCheck",
