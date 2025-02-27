@@ -71,8 +71,8 @@ local Slider = Tabs.Aim:AddSlider("Slider",
     Description = "",
     Default = 2,
     Min = 0,
-    Max = 5,
-    Rounding = 1,
+    Max = 1,
+    Rounding = 0.10,
     Callback = function(Value)
         getgenv().Aimbot.Settings.Sensitivity = Value
     end
