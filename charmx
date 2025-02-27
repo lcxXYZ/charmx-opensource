@@ -1,0 +1,210 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Raw%20Main.lua"))()
+print("⭐⭐ESP ISNT WORKING⭐⭐")
+-- Assuming Fluent is already initialized somewhere in your script
+local Window = Fluent:CreateWindow({
+    Title = "Charmx Free" .. Fluent.Version,
+    SubTitle = "Enhanced UI Experience",
+    TabWidth = 170,
+    Size = UDim2.fromOffset(650, 520),
+    Acrylic = true,
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.J,
+    TextSize = 18, -- Increased text size for better readability
+})
+
+-- Define Tabs
+local Tabs = {
+    Info = Window:AddTab({ Title = "Info", Icon = "info" }),
+    Aim = Window:AddTab({ Title = "Aim", Icon = "crosshair" }),
+    Visuals = Window:AddTab({ Title = "Visuals", Icon = "eye" }),
+    Player = Window:AddTab({ Title = "Player", Icon = "star" }),
+    Mics = Window:AddTab({ Title = "Mics", Icon = "book" }),
+    Menu = Window:AddTab({ Title = "Menu", Icon = "table" }),
+    Esp = Window:AddTab({ Title = "Esp", Icon = "table" }),
+    CustomUI = Window:AddTab({ Title = "Custom UI", Icon = "paintbrush" })
+}
+
+-- Add Information Paragraph to Info Tab
+Tabs.Info:AddParagraph({
+    Title = "Welcome",
+    Content = "Press 'J' to toggle the menu. Enjoy the improved experience!",
+    TextColor = Color3.fromRGB(255, 255, 255),
+    BackgroundColor = Color3.fromRGB(60, 60, 60), -- Slight background color for info box
+    Padding = 10
+})
+
+-- Notify when the script is loaded
+Fluent:Notify({
+    Title = "Charmx Loaded",
+    Content = "The UI has been updated for a better experience!",
+    Duration = 5,
+    BackgroundColor = Color3.fromRGB(0, 128, 255), -- Bright notification background
+    TextColor = Color3.fromRGB(255, 255, 255) -- White text for contrast
+})
+
+-- Add Toggle for "Lock" in Aim Tab
+local Toggle1 = Tabs.Aim:AddToggle("Lock", {
+    Title = "Enable Aim Lock",
+    Description = "Toggle to enable/disable aim lock.",
+    Default = false,
+    Callback = function(state)
+        getgenv().Aimbot.FOVSettings.Enabled = state
+    end
+})
+
+-- Add Slider for "FOV Size"
+local Slider1 = Tabs.Aim:AddSlider("Fov Size", {
+    Title = "Adjust FOV Size",
+    Description = "Set the size of the aim FOV.",
+    Default = 50,
+    Min = 50,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(Value)
+        getgenv().Aimbot.FOVSettings.Amount = Value
+    end
+})
+
+-- Add Toggle for "WallCheck"
+local Toggle2 = Tabs.Aim:AddToggle("WallCheck", {
+    Title = "Enable WallCheck",
+    Description = "Enable or disable WallCheck for aiming.",
+    Default = false,
+    Callback = function(state)
+        getgenv().Aimbot.Settings.WallCheck = state
+    end
+})
+
+-- Add Color Picker for FOV Color in Visuals Tab
+local Colorpicker1 = Tabs.Visuals:AddColorpicker("FOV Color", {
+    Title = "FOV Color",
+    Description = "Pick the color for the FOV circle.",
+    Default = Color3.fromRGB(96, 205, 255)
+})
+
+Colorpicker1:OnChanged(function(Value)
+    getgenv().Aimbot.FOVSettings.Color = Value
+end)
+
+-- Add Toggle for FOV Filled Effect
+local Toggle3 = Tabs.Visuals:AddToggle("FOV Filled", {
+    Title = "FOV Filled",
+    Description = "Toggle to fill the FOV circle.",
+    Default = false,
+    Callback = function(state)
+        getgenv().Aimbot.FOVSettings.Filled = state
+    end
+})
+
+-- Add Slider for FOV Transparency in Visuals Tab
+local Slider2 = Tabs.Visuals:AddSlider("FOV Transparency", {
+    Title = "Adjust FOV Transparency",
+    Description = "Adjust the transparency of the FOV circle.",
+    Default = 2,
+    Min = 0,
+    Max = 5,
+    Rounding = 1,
+    Callback = function(Value)
+        getgenv().Aimbot.FOVSettings.Transparency = Value
+    end
+})
+
+-- Add Slider to adjust the Camera's Field of View
+local Slider3 = Tabs.Visuals:AddSlider("Camera FOV", {
+    Title = "Adjust Camera FOV",
+    Description = "Set the camera's Field of View.",
+    Default = 70,
+    Min = 60,
+    Max = 120,
+    Rounding = 1,
+    Callback = function(Value)
+        game:GetService("Workspace").CurrentCamera.FieldOfView = Value
+    end
+})
+
+-- Menu Tab with Button to kick yourself
+Tabs.Menu:AddButton({
+    Title = "Kick Yourself",
+    Description = "Click this button to kick yourself from the game.",
+    Callback = function()
+        game.Players.LocalPlayer:Kick("You kicked yourself from the game.")
+    end
+})
+
+-- Custom UI Tab for UI Customizations
+Tabs.CustomUI:AddParagraph({
+    Title = "UI Customization",
+    Content = "Adjust the window background, title, and text color below.",
+    TextColor = Color3.fromRGB(255, 255, 255),
+    BackgroundColor = Color3.fromRGB(60, 60, 60), -- Slight background color for customization box
+    Padding = 10
+})
+
+-- Add Color Picker to change the Window Title Color
+local TitleColorPicker = Tabs.CustomUI:AddColorpicker("Title Color", {
+    Title = "Window Title Color",
+    Description = "Pick the color for the window's title.",
+    Default = Color3.fromRGB(140, 85, 105),
+    TextColor = Color3.fromRGB(255, 255, 255),
+    BackgroundColor = Color3.fromRGB(60, 60, 60),
+    Font = Enum.Font.Gotham
+})
+
+TitleColorPicker:OnChanged(function(Value)
+    Window.TitleColor = Value -- Changes the window title color
+end)
+
+-- Add Toggle for Acrylic Background Effect
+local AcrylicToggle = Tabs.CustomUI:AddToggle("Acrylic Background", {
+    Title = "Enable Acrylic Background",
+    Description = "Toggle to enable/disable the acrylic background effect.",
+    Default = true,
+    Callback = function(state)
+        Window.Acrylic = state
+    end,
+    TextColor = Color3.fromRGB(255, 255, 255),
+    BackgroundColor = Color3.fromRGB(60, 60, 60),
+    Font = Enum.Font.Gotham
+})
+
+-- Add Slider to change the Window Transparency
+local WindowTransparencySlider = Tabs.CustomUI:AddSlider("Window Transparency", {
+    Title = "Window Transparency",
+    Description = "Adjust the window's transparency.",
+    Default = 0.5,
+    Min = 0,
+    Max = 1,
+    Rounding = 1,
+    Callback = function(Value)
+        Window.BackgroundTransparency = Value
+    end,
+    TextColor = Color3.fromRGB(255, 255, 255),
+    BackgroundColor = Color3.fromRGB(60, 60, 60),
+    Font = Enum.Font.Gotham
+})
+
+-- ESP Tab with Toggle for WallHack
+local ToggleEsp = Tabs.Esp:AddToggle("Esp Toggle", {
+    Title = "Enable ESP",
+    Description = "Toggle to enable/disable ESP.",
+    Default = false,
+    Callback = function(state)
+        if state then
+            getgenv().WallHack.Settings.Enabled = true
+        else
+            getgenv().WallHack.Settings.Enabled = false
+        end
+    end
+})
+
+-- Add Color Picker for ESP
+local ColorpickerEsp = Tabs.Esp:AddColorpicker("Esp Color", {
+    Title = "ESP Color",
+    Description = "Pick the color for the ESP visuals.",
+    Default = Color3.fromRGB(96, 205, 255)
+})
+
+ColorpickerEsp:OnChanged(function(Value)
+    getgenv().WallHack.Visuals.TracersSettings.Color = Value
+end)
